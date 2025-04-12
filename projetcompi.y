@@ -26,6 +26,12 @@
 %token INF SUP INFEG SUPEG EGAL DIFF
 %token PO PF ACCO ACCF
 
+%left OR
+%left AND
+%left EGAL
+%left ADD SUB
+%left MUL DIV
+
 %start programme
 
 %%
