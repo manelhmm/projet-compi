@@ -1,0 +1,7 @@
+MainPrgrm
+BeginPg
+Var x : Int;
+x := 5 + 2;
+output x;
+EndPg
+EndPg
