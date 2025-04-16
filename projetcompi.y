@@ -94,13 +94,14 @@ io
     ;
 
 %%
-
 void yyerror(const char *s) {
     extern int nb_ligne;
     extern int col;
+    extern char *yytext;
     fprintf(stderr, "Erreur ligne %d, colonne %d: %s\nToken inattendu: '%s'\n", 
            nb_ligne, col, s, yytext);
 }
+
 int main() {
     return yyparse();
 }

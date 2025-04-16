@@ -79,4 +79,3 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 
 int yywrap(void) { return 1; }
 
-

@@ -1634,10 +1634,14 @@ yyreturn:
 /* Line 1675 of yacc.c  */
 #line 96 "projetcompi.y"
 
-
 void yyerror(const char *s) {
-    fprintf(stderr, "Erreur de syntaxe : %s\n", s);
+    extern int nb_ligne;
+    extern int col;
+    extern char *yytext;
+    fprintf(stderr, "Erreur ligne %d, colonne %d: %s\nToken inattendu: '%s'\n", 
+           nb_ligne, col, s, yytext);
 }
+
 int main() {
     return yyparse();
 }
