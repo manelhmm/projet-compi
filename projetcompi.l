@@ -4,6 +4,7 @@
     #include <string.h>
     #include "projetcompi.tab.h"
 
+
     int nb_ligne = 1;
     int col = 0;
 %}
@@ -22,10 +23,10 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 
 "AND"              { col += 3; return AND; }
 "OR"               { col += 2; return OR; }
-"MainPrgrm"        { col += strlen(yytext); return MainPrgrm; }
-"Var"              { col += strlen(yytext); return VAR; }
-"BeginPg"          { col += strlen(yytext); return BEGINPG; }
-"EndPg"            { col += strlen(yytext); return ENDPG; }
+"MainPrgm"   { return MAINPRGM; }  // en majuscules
+"Var"        { return VAR; }
+"BeginPg"    { return BEGINPG; }
+"EndPg"      { return ENDPG; }
 "Int"              { col += strlen(yytext); return INT; }
 "Float"            { col += strlen(yytext); return FLOAT; }
 "if"               { col += strlen(yytext); return IF; }
@@ -77,8 +78,5 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 
 %%
 
-int yywrap() { return 1; }
+int yywrap(void) { return 1; }
 
-int main() {
-    return yyparse();
-}

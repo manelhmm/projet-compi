@@ -15,7 +15,7 @@
 %token <val> CST
 %token <str> IDF
 %token AND OR
-%token MainPrgrm VAR BEGINPG ENDPG
+%token MAINPRGM VAR BEGINPG ENDPG
 %token INT FLOAT
 %token IF THEN DO WHILE ELSE
 %token FOR FROM TO STEP
@@ -37,11 +37,13 @@
 %%
 
 programme
-    : MainPrgrm bloc ENDPG
+    : MAINPRGM IDF PVG VAR bloc ENDPG PVG
+
+;
+bloc
+    : BEGINPG ACCO ACCF
     ;
 
-bloc
-    : BEGINPG instructions ENDPG
     ;
 
 instructions
