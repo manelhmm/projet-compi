@@ -77,8 +77,6 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 
 %%
 
-int yywrap() { return 1; }
+int yywrap(void) { return 1; }
 
-int main() {
-    return yyparse();
-}
+
