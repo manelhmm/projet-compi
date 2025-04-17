@@ -38,6 +38,7 @@ void inserer(char entite[], char code[], char type[], char val[], int is_array, 
        strcpy(TS[i].val, val);
        TS[i].is_array = is_array;
        TS[i].array_size = array_size;
+    //    TS[i].is_const = is_const;
        cpt++;
        break;
 

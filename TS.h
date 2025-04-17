@@ -10,7 +10,8 @@ typedef struct {
    char type[20];
    char val[20];
    int is_array;     // 0 = non, 1 = oui
-   int array_size;   // taille si tableau
+   int array_size; 
+   int is_const;  // taille si tableau
 } TypeTS;
 
 typedef struct { 

@@ -1,6 +1,6 @@
 MainPrgm L3_software ;
 Var
-<!- Partie déclaration - !>
+< !- Partie déclaration - !>
 BeginPg
 {
 {-- Partie Instruction --}

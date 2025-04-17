@@ -1,5 +1,3 @@
-
-
 %{
     #include <stdio.h>
     #include <stdlib.h>
@@ -53,7 +51,7 @@ programme
 
 declarations
     : VAR declaration_list
-    | /* vide */
+    | VAR IDF ':' type PVG
     ;
 
 declaration_list
@@ -175,10 +173,28 @@ expression
         $$ = strdup($1);
         free($1); free($3);
     }
-    | expression DIV expression {
+    | | expression DIV expression {
+        // Vérification de compatibilité des types
         if (strcmp($1, $3) != 0) {
             printf("Erreur sémantique: division entre types incompatibles\n");
         }
+        
+        // Vérification de division par zéro pour une constante
+        // Vérifie si l'expression à droite est une constante entière 0
+        if (strcmp($3, "INT") == 0) {
+            // Chercher si c'est une constante avec valeur 0
+            int i;
+            for (i = 0; i < cpt; i++) {
+                if (TS[i].state == 1 && 
+                    strcmp(TS[i].code, "CONST") == 0 && 
+                    strcmp(TS[i].type, "INTEGER") == 0 && 
+                    strcmp(TS[i].val, "0") == 0) {
+                    printf("Erreur sémantique: division par zéro détectée\n");
+                    break;
+                }
+            }
+        }
+        
         $$ = strdup($1);
         free($1); free($3);
     }
