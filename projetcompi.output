@@ -1,0 +1,902 @@
+Terminals unused in grammar
+
+   AND
+   OR
+   DEFINE
+   CONST
+   LET
+   INF
+   SUP
+   INFEG
+   SUPEG
+   EGAL
+   DIFF
+   PO
+   PF
+   UNDERSCORE
+
+
+État 6conflits: 3 décalage/réduction
+État 19conflits: 9 décalage/réduction
+
+
+Grammaire
+
+    0 $accept: programme $end
+
+    1 programme: MainPrgm IDF PVG declarations bloc ENDPG PVG
+
+    2 declarations: VAR declaration_list
+    3             | /* vide */
+
+    4 declaration_list: declaration_list declaration
+    5                 | declaration_list Comment1
+    6                 | declaration_list Comment2
+    7                 | declaration
+    8                 | Comment1
+    9                 | Comment2
+   10                 | /* vide */
+
+   11 bloc: BEGINPG ACCO instructions ACCF
+
+   12 instructions: instructions instruction
+   13             | instructions Comment1
+   14             | instructions Comment2
+   15             | instruction
+   16             | Comment1
+   17             | Comment2
+   18             | /* vide */
+
+   19 instruction: declaration
+   20            | affectation
+   21            | boucle
+   22            | condition
+   23            | io
+
+   24 declaration: VAR IDF ':' type PVG
+
+   25 type: INT
+   26     | FLOAT
+
+   27 affectation: IDF AFFECT expression PVG
+
+   28 expression: CST
+   29           | IDF
+   30           | expression ADD expression
+   31           | expression SUB expression
+   32           | expression MUL expression
+   33           | expression DIV expression
+
+   34 boucle: WHILE expression DO bloc
+   35       | FOR IDF FROM expression TO expression STEP expression DO bloc
+
+   36 condition: IF expression THEN bloc ELSE bloc
+
+   37 io: INPUT IDF PVG
+   38   | OUTPUT IDF PVG
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+':' (58) 24
+error (256)
+Comment1 (258) 5 8 13 16
+Comment2 (259) 6 9 14 17
+CST (260) 28
+IDF (261) 1 24 27 29 35 37 38
+AND (262)
+OR (263)
+MainPrgm (264) 1
+VAR (265) 2 24
+BEGINPG (266) 11
+ENDPG (267) 1
+INT (268) 25
+FLOAT (269) 26
+IF (270) 36
+THEN (271) 36
+DO (272) 34 35
+WHILE (273) 34
+ELSE (274) 36
+FOR (275) 35
+FROM (276) 35
+TO (277) 35
+STEP (278) 35
+INPUT (279) 37
+OUTPUT (280) 38
+DEFINE (281)
+CONST (282)
+LET (283)
+ADD (284) 30
+SUB (285) 31
+MUL (286) 32
+DIV (287) 33
+AFFECT (288) 27
+PVG (289) 1 24 27 37 38
+INF (290)
+SUP (291)
+INFEG (292)
+SUPEG (293)
+EGAL (294)
+DIFF (295)
+PO (296)
+PF (297)
+ACCO (298) 11
+ACCF (299) 11
+UNDERSCORE (300)
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (47)
+    à gauche: 0
+programme (48)
+    à gauche: 1, à droite: 0
+declarations (49)
+    à gauche: 2 3, à droite: 1
+declaration_list (50)
+    à gauche: 4 5 6 7 8 9 10, à droite: 2 4 5 6
+bloc (51)
+    à gauche: 11, à droite: 1 34 35 36
+instructions (52)
+    à gauche: 12 13 14 15 16 17 18, à droite: 11 12 13 14
+instruction (53)
+    à gauche: 19 20 21 22 23, à droite: 12 15
+declaration (54)
+    à gauche: 24, à droite: 4 7 19
+type (55)
+    à gauche: 25 26, à droite: 24
+affectation (56)
+    à gauche: 27, à droite: 20
+expression (57)
+    à gauche: 28 29 30 31 32 33, à droite: 27 30 31 32 33 34 35 36
+boucle (58)
+    à gauche: 34 35, à droite: 21
+condition (59)
+    à gauche: 36, à droite: 22
+io (60)
+    à gauche: 37 38, à droite: 23
+
+
+état 0
+
+    0 $accept: . programme $end
+
+    MainPrgm  décalage et aller à l'état 1
+
+    programme  aller à l'état 2
+
+
+état 1
+
+    1 programme: MainPrgm . IDF PVG declarations bloc ENDPG PVG
+
+    IDF  décalage et aller à l'état 3
+
+
+état 2
+
+    0 $accept: programme . $end
+
+    $end  décalage et aller à l'état 4
+
+
+état 3
+
+    1 programme: MainPrgm IDF . PVG declarations bloc ENDPG PVG
+
+    PVG  décalage et aller à l'état 5
+
+
+état 4
+
+    0 $accept: programme $end .
+
+    $défaut  accepter
+
+
+état 5
+
+    1 programme: MainPrgm IDF PVG . declarations bloc ENDPG PVG
+
+    VAR  décalage et aller à l'état 6
+
+    $défaut  réduction par utilisation de la règle 3 (declarations)
+
+    declarations  aller à l'état 7
+
+
+état 6
+
+    2 declarations: VAR . declaration_list
+
+    Comment1  décalage et aller à l'état 8
+    Comment2  décalage et aller à l'état 9
+    VAR       décalage et aller à l'état 10
+
+    Comment1  [réduction par utilisation de la règle 10 (declaration_list)]
+    Comment2  [réduction par utilisation de la règle 10 (declaration_list)]
+    VAR       [réduction par utilisation de la règle 10 (declaration_list)]
+    $défaut   réduction par utilisation de la règle 10 (declaration_list)
+
+    declaration_list  aller à l'état 11
+    declaration       aller à l'état 12
+
+
+état 7
+
+    1 programme: MainPrgm IDF PVG declarations . bloc ENDPG PVG
+
+    BEGINPG  décalage et aller à l'état 13
+
+    bloc  aller à l'état 14
+
+
+état 8
+
+    8 declaration_list: Comment1 .
+
+    $défaut  réduction par utilisation de la règle 8 (declaration_list)
+
+
+état 9
+
+    9 declaration_list: Comment2 .
+
+    $défaut  réduction par utilisation de la règle 9 (declaration_list)
+
+
+état 10
+
+   24 declaration: VAR . IDF ':' type PVG
+
+    IDF  décalage et aller à l'état 15
+
+
+état 11
+
+    2 declarations: VAR declaration_list .
+    4 declaration_list: declaration_list . declaration
+    5                 | declaration_list . Comment1
+    6                 | declaration_list . Comment2
+
+    Comment1  décalage et aller à l'état 16
+    Comment2  décalage et aller à l'état 17
+    VAR       décalage et aller à l'état 10
+
+    $défaut  réduction par utilisation de la règle 2 (declarations)
+
+    declaration  aller à l'état 18
+
+
+état 12
+
+    7 declaration_list: declaration .
+
+    $défaut  réduction par utilisation de la règle 7 (declaration_list)
+
+
+état 13
+
+   11 bloc: BEGINPG . ACCO instructions ACCF
+
+    ACCO  décalage et aller à l'état 19
+
+
+état 14
+
+    1 programme: MainPrgm IDF PVG declarations bloc . ENDPG PVG
+
+    ENDPG  décalage et aller à l'état 20
+
+
+état 15
+
+   24 declaration: VAR IDF . ':' type PVG
+
+    ':'  décalage et aller à l'état 21
+
+
+état 16
+
+    5 declaration_list: declaration_list Comment1 .
+
+    $défaut  réduction par utilisation de la règle 5 (declaration_list)
+
+
+état 17
+
+    6 declaration_list: declaration_list Comment2 .
+
+    $défaut  réduction par utilisation de la règle 6 (declaration_list)
+
+
+état 18
+
+    4 declaration_list: declaration_list declaration .
+
+    $défaut  réduction par utilisation de la règle 4 (declaration_list)
+
+
+état 19
+
+   11 bloc: BEGINPG ACCO . instructions ACCF
+
+    Comment1  décalage et aller à l'état 22
+    Comment2  décalage et aller à l'état 23
+    IDF       décalage et aller à l'état 24
+    VAR       décalage et aller à l'état 10
+    IF        décalage et aller à l'état 25
+    WHILE     décalage et aller à l'état 26
+    FOR       décalage et aller à l'état 27
+    INPUT     décalage et aller à l'état 28
+    OUTPUT    décalage et aller à l'état 29
+
+    Comment1  [réduction par utilisation de la règle 18 (instructions)]
+    Comment2  [réduction par utilisation de la règle 18 (instructions)]
+    IDF       [réduction par utilisation de la règle 18 (instructions)]
+    VAR       [réduction par utilisation de la règle 18 (instructions)]
+    IF        [réduction par utilisation de la règle 18 (instructions)]
+    WHILE     [réduction par utilisation de la règle 18 (instructions)]
+    FOR       [réduction par utilisation de la règle 18 (instructions)]
+    INPUT     [réduction par utilisation de la règle 18 (instructions)]
+    OUTPUT    [réduction par utilisation de la règle 18 (instructions)]
+    $défaut   réduction par utilisation de la règle 18 (instructions)
+
+    instructions  aller à l'état 30
+    instruction   aller à l'état 31
+    declaration   aller à l'état 32
+    affectation   aller à l'état 33
+    boucle        aller à l'état 34
+    condition     aller à l'état 35
+    io            aller à l'état 36
+
+
+état 20
+
+    1 programme: MainPrgm IDF PVG declarations bloc ENDPG . PVG
+
+    PVG  décalage et aller à l'état 37
+
+
+état 21
+
+   24 declaration: VAR IDF ':' . type PVG
+
+    INT    décalage et aller à l'état 38
+    FLOAT  décalage et aller à l'état 39
+
+    type  aller à l'état 40
+
+
+état 22
+
+   16 instructions: Comment1 .
+
+    $défaut  réduction par utilisation de la règle 16 (instructions)
+
+
+état 23
+
+   17 instructions: Comment2 .
+
+    $défaut  réduction par utilisation de la règle 17 (instructions)
+
+
+état 24
+
+   27 affectation: IDF . AFFECT expression PVG
+
+    AFFECT  décalage et aller à l'état 41
+
+
+état 25
+
+   36 condition: IF . expression THEN bloc ELSE bloc
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 44
+
+
+état 26
+
+   34 boucle: WHILE . expression DO bloc
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 45
+
+
+état 27
+
+   35 boucle: FOR . IDF FROM expression TO expression STEP expression DO bloc
+
+    IDF  décalage et aller à l'état 46
+
+
+état 28
+
+   37 io: INPUT . IDF PVG
+
+    IDF  décalage et aller à l'état 47
+
+
+état 29
+
+   38 io: OUTPUT . IDF PVG
+
+    IDF  décalage et aller à l'état 48
+
+
+état 30
+
+   11 bloc: BEGINPG ACCO instructions . ACCF
+   12 instructions: instructions . instruction
+   13             | instructions . Comment1
+   14             | instructions . Comment2
+
+    Comment1  décalage et aller à l'état 49
+    Comment2  décalage et aller à l'état 50
+    IDF       décalage et aller à l'état 24
+    VAR       décalage et aller à l'état 10
+    IF        décalage et aller à l'état 25
+    WHILE     décalage et aller à l'état 26
+    FOR       décalage et aller à l'état 27
+    INPUT     décalage et aller à l'état 28
+    OUTPUT    décalage et aller à l'état 29
+    ACCF      décalage et aller à l'état 51
+
+    instruction  aller à l'état 52
+    declaration  aller à l'état 32
+    affectation  aller à l'état 33
+    boucle       aller à l'état 34
+    condition    aller à l'état 35
+    io           aller à l'état 36
+
+
+état 31
+
+   15 instructions: instruction .
+
+    $défaut  réduction par utilisation de la règle 15 (instructions)
+
+
+état 32
+
+   19 instruction: declaration .
+
+    $défaut  réduction par utilisation de la règle 19 (instruction)
+
+
+état 33
+
+   20 instruction: affectation .
+
+    $défaut  réduction par utilisation de la règle 20 (instruction)
+
+
+état 34
+
+   21 instruction: boucle .
+
+    $défaut  réduction par utilisation de la règle 21 (instruction)
+
+
+état 35
+
+   22 instruction: condition .
+
+    $défaut  réduction par utilisation de la règle 22 (instruction)
+
+
+état 36
+
+   23 instruction: io .
+
+    $défaut  réduction par utilisation de la règle 23 (instruction)
+
+
+état 37
+
+    1 programme: MainPrgm IDF PVG declarations bloc ENDPG PVG .
+
+    $défaut  réduction par utilisation de la règle 1 (programme)
+
+
+état 38
+
+   25 type: INT .
+
+    $défaut  réduction par utilisation de la règle 25 (type)
+
+
+état 39
+
+   26 type: FLOAT .
+
+    $défaut  réduction par utilisation de la règle 26 (type)
+
+
+état 40
+
+   24 declaration: VAR IDF ':' type . PVG
+
+    PVG  décalage et aller à l'état 53
+
+
+état 41
+
+   27 affectation: IDF AFFECT . expression PVG
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 54
+
+
+état 42
+
+   28 expression: CST .
+
+    $défaut  réduction par utilisation de la règle 28 (expression)
+
+
+état 43
+
+   29 expression: IDF .
+
+    $défaut  réduction par utilisation de la règle 29 (expression)
+
+
+état 44
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   36 condition: IF expression . THEN bloc ELSE bloc
+
+    THEN  décalage et aller à l'état 55
+    ADD   décalage et aller à l'état 56
+    SUB   décalage et aller à l'état 57
+    MUL   décalage et aller à l'état 58
+    DIV   décalage et aller à l'état 59
+
+
+état 45
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   34 boucle: WHILE expression . DO bloc
+
+    DO   décalage et aller à l'état 60
+    ADD  décalage et aller à l'état 56
+    SUB  décalage et aller à l'état 57
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+
+
+état 46
+
+   35 boucle: FOR IDF . FROM expression TO expression STEP expression DO bloc
+
+    FROM  décalage et aller à l'état 61
+
+
+état 47
+
+   37 io: INPUT IDF . PVG
+
+    PVG  décalage et aller à l'état 62
+
+
+état 48
+
+   38 io: OUTPUT IDF . PVG
+
+    PVG  décalage et aller à l'état 63
+
+
+état 49
+
+   13 instructions: instructions Comment1 .
+
+    $défaut  réduction par utilisation de la règle 13 (instructions)
+
+
+état 50
+
+   14 instructions: instructions Comment2 .
+
+    $défaut  réduction par utilisation de la règle 14 (instructions)
+
+
+état 51
+
+   11 bloc: BEGINPG ACCO instructions ACCF .
+
+    $défaut  réduction par utilisation de la règle 11 (bloc)
+
+
+état 52
+
+   12 instructions: instructions instruction .
+
+    $défaut  réduction par utilisation de la règle 12 (instructions)
+
+
+état 53
+
+   24 declaration: VAR IDF ':' type PVG .
+
+    $défaut  réduction par utilisation de la règle 24 (declaration)
+
+
+état 54
+
+   27 affectation: IDF AFFECT expression . PVG
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+
+    ADD  décalage et aller à l'état 56
+    SUB  décalage et aller à l'état 57
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+    PVG  décalage et aller à l'état 64
+
+
+état 55
+
+   36 condition: IF expression THEN . bloc ELSE bloc
+
+    BEGINPG  décalage et aller à l'état 13
+
+    bloc  aller à l'état 65
+
+
+état 56
+
+   30 expression: expression ADD . expression
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 66
+
+
+état 57
+
+   31 expression: expression SUB . expression
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 67
+
+
+état 58
+
+   32 expression: expression MUL . expression
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 68
+
+
+état 59
+
+   33 expression: expression DIV . expression
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 69
+
+
+état 60
+
+   34 boucle: WHILE expression DO . bloc
+
+    BEGINPG  décalage et aller à l'état 13
+
+    bloc  aller à l'état 70
+
+
+état 61
+
+   35 boucle: FOR IDF FROM . expression TO expression STEP expression DO bloc
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 71
+
+
+état 62
+
+   37 io: INPUT IDF PVG .
+
+    $défaut  réduction par utilisation de la règle 37 (io)
+
+
+état 63
+
+   38 io: OUTPUT IDF PVG .
+
+    $défaut  réduction par utilisation de la règle 38 (io)
+
+
+état 64
+
+   27 affectation: IDF AFFECT expression PVG .
+
+    $défaut  réduction par utilisation de la règle 27 (affectation)
+
+
+état 65
+
+   36 condition: IF expression THEN bloc . ELSE bloc
+
+    ELSE  décalage et aller à l'état 72
+
+
+état 66
+
+   30 expression: expression . ADD expression
+   30           | expression ADD expression .
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+
+    $défaut  réduction par utilisation de la règle 30 (expression)
+
+
+état 67
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   31           | expression SUB expression .
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+
+    $défaut  réduction par utilisation de la règle 31 (expression)
+
+
+état 68
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   32           | expression MUL expression .
+   33           | expression . DIV expression
+
+    $défaut  réduction par utilisation de la règle 32 (expression)
+
+
+état 69
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   33           | expression DIV expression .
+
+    $défaut  réduction par utilisation de la règle 33 (expression)
+
+
+état 70
+
+   34 boucle: WHILE expression DO bloc .
+
+    $défaut  réduction par utilisation de la règle 34 (boucle)
+
+
+état 71
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   35 boucle: FOR IDF FROM expression . TO expression STEP expression DO bloc
+
+    TO   décalage et aller à l'état 73
+    ADD  décalage et aller à l'état 56
+    SUB  décalage et aller à l'état 57
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+
+
+état 72
+
+   36 condition: IF expression THEN bloc ELSE . bloc
+
+    BEGINPG  décalage et aller à l'état 13
+
+    bloc  aller à l'état 74
+
+
+état 73
+
+   35 boucle: FOR IDF FROM expression TO . expression STEP expression DO bloc
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 75
+
+
+état 74
+
+   36 condition: IF expression THEN bloc ELSE bloc .
+
+    $défaut  réduction par utilisation de la règle 36 (condition)
+
+
+état 75
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   35 boucle: FOR IDF FROM expression TO expression . STEP expression DO bloc
+
+    STEP  décalage et aller à l'état 76
+    ADD   décalage et aller à l'état 56
+    SUB   décalage et aller à l'état 57
+    MUL   décalage et aller à l'état 58
+    DIV   décalage et aller à l'état 59
+
+
+état 76
+
+   35 boucle: FOR IDF FROM expression TO expression STEP . expression DO bloc
+
+    CST  décalage et aller à l'état 42
+    IDF  décalage et aller à l'état 43
+
+    expression  aller à l'état 77
+
+
+état 77
+
+   30 expression: expression . ADD expression
+   31           | expression . SUB expression
+   32           | expression . MUL expression
+   33           | expression . DIV expression
+   35 boucle: FOR IDF FROM expression TO expression STEP expression . DO bloc
+
+    DO   décalage et aller à l'état 78
+    ADD  décalage et aller à l'état 56
+    SUB  décalage et aller à l'état 57
+    MUL  décalage et aller à l'état 58
+    DIV  décalage et aller à l'état 59
+
+
+état 78
+
+   35 boucle: FOR IDF FROM expression TO expression STEP expression DO . bloc
+
+    BEGINPG  décalage et aller à l'état 13
+
+    bloc  aller à l'état 79
+
+
+état 79
+
+   35 boucle: FOR IDF FROM expression TO expression STEP expression DO bloc .
+
+    $défaut  réduction par utilisation de la règle 35 (boucle)

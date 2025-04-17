@@ -39,46 +39,49 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     CST = 258,
-     IDF = 259,
-     AND = 260,
-     OR = 261,
-     MainPrgrm = 262,
-     VAR = 263,
-     BEGINPG = 264,
-     ENDPG = 265,
-     INT = 266,
-     FLOAT = 267,
-     IF = 268,
-     THEN = 269,
-     DO = 270,
-     WHILE = 271,
-     ELSE = 272,
-     FOR = 273,
-     FROM = 274,
-     TO = 275,
-     STEP = 276,
-     INPUT = 277,
-     OUTPUT = 278,
-     DEFINE = 279,
-     CONST = 280,
-     LET = 281,
-     ADD = 282,
-     SUB = 283,
-     MUL = 284,
-     DIV = 285,
-     AFFECT = 286,
-     PVG = 287,
-     INF = 288,
-     SUP = 289,
-     INFEG = 290,
-     SUPEG = 291,
-     EGAL = 292,
-     DIFF = 293,
-     PO = 294,
-     PF = 295,
-     ACCO = 296,
-     ACCF = 297
+     Comment1 = 258,
+     Comment2 = 259,
+     CST = 260,
+     IDF = 261,
+     AND = 262,
+     OR = 263,
+     MainPrgm = 264,
+     VAR = 265,
+     BEGINPG = 266,
+     ENDPG = 267,
+     INT = 268,
+     FLOAT = 269,
+     IF = 270,
+     THEN = 271,
+     DO = 272,
+     WHILE = 273,
+     ELSE = 274,
+     FOR = 275,
+     FROM = 276,
+     TO = 277,
+     STEP = 278,
+     INPUT = 279,
+     OUTPUT = 280,
+     DEFINE = 281,
+     CONST = 282,
+     LET = 283,
+     ADD = 284,
+     SUB = 285,
+     MUL = 286,
+     DIV = 287,
+     AFFECT = 288,
+     PVG = 289,
+     INF = 290,
+     SUP = 291,
+     INFEG = 292,
+     SUPEG = 293,
+     EGAL = 294,
+     DIFF = 295,
+     PO = 296,
+     PF = 297,
+     ACCO = 298,
+     ACCF = 299,
+     UNDERSCORE = 300
    };
 #endif
 
@@ -89,15 +92,16 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 10 "projetcompi.y"
+#line 14 "projetcompi.y"
 
     int val;
     char* str;
+    char* type; // pour les types d’expression
 
 
 
 /* Line 1676 of yacc.c  */
-#line 101 "projetcompi.tab.h"
+#line 105 "projetcompi.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
