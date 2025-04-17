@@ -6,22 +6,35 @@
     #include <string.h>
     #include "projetcompi.tab.h"
     #include "TS.h"
+    #define ERROR -1 
 
+    void print_comment(const char* type, const char* text);
     int nb_ligne = 1;
     int col = 0;
 %}
 
 lettre     [a-zA-Z]
 chiffre    [0-9]
-IDF        {lettre}({lettre}|{chiffre}|[_])* 
+tiret_bas  "_"
+IDF        {lettre}({lettre}|{chiffre}|{tiret_bas}({lettre}|{chiffre}))*
 cst        {chiffre}+
-Comment1   "<!-"([^-]|-[^!]|--[^>])*"-!>"
-Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
+Comment1   "<"[ ]*"!-"([^\n]|-[^!]|![^>])*"-"[ ]*"!>"
+Comment2   "{"[ ]*"--"([^-]|-[^-])*"--"[ ]*"}"
 
 %%
 
-{Comment1}         { printf("[Commentaire] Ligne %d: %s\n", nb_ligne, yytext); col += strlen(yytext); }
-{Comment2}         { printf("[Commentaire multi-lignes] Ligne %d: %s\n", nb_ligne, yytext); col += strlen(yytext); }
+{Comment1} { 
+    printf("[Commentaire ligne] %s\n", yytext); 
+    col += strlen(yytext); 
+    return Comment1;  
+}
+
+{Comment2} {
+    printf("[Commentaire multi-lignes] %s\n", yytext);
+    col += strlen(yytext);
+    return Comment2;
+}
+
 
 "MainPrgm"         { printf("[Mot-cle] MainPrgm\n"); Rechercher("MainPrgm", "MainPrgm", "", "", 2); return MainPrgm; }  
 "BeginPg"          { printf("[Mot-cle] BeginPg\n"); Rechercher("BeginPg", "BEGINPG", "", "", 2); return BEGINPG; }
@@ -56,13 +69,29 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 }
 
 {IDF} {
+    /* Vérification de la longueur maximale */
     if (strlen(yytext) > 14) {
-        printf("[Erreur] Ligne %d: Identifiant trop long '%s'\n", nb_ligne, yytext);
+        printf("Erreur ligne %d: Identifiant '%s' dépasse 14 caractères\n", nb_ligne, yytext);
+        col += strlen(yytext);
+        return ERROR;
     }
-    else {
-        printf("[IDF] %s\n", yytext);  // Affichage de l'identifiant
-        Rechercher(yytext, "IDF", "", "", 1);
+    
+    /* Vérification des tirets bas */
+    if (yytext[strlen(yytext)-1] == '_') {
+        printf("Erreur ligne %d: Identifiant '%s' ne peut terminer par un tiret bas\n", nb_ligne, yytext);
+        col += strlen(yytext);
+        return ERROR;
     }
+    
+    if (strstr(yytext, "__") != NULL) {
+        printf("Erreur ligne %d: Identifiant '%s' contient des tirets bas consécutifs\n", nb_ligne, yytext);
+        col += strlen(yytext);
+        return ERROR;
+    }
+    
+    /* Si tout est valide */
+    printf("[IDF valide] %s\n", yytext); 
+    Rechercher(yytext, "IDF", "", "", 1);
     yylval.str = strdup(yytext);
     col += strlen(yytext);
     return IDF;
@@ -92,6 +121,6 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 .                  { printf("[Erreur] Ligne %d: Caractère invalide '%s'\n", nb_ligne, yytext); col++; }
 
 %%
-
+void print_comment(const char* type, const char* text) {
+    printf("[%s]\n%s\n", type, text);}
 int yywrap(void) { return 1; }
-

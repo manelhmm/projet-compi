@@ -16,7 +16,7 @@
     char* str;
     char* type; // pour les types d’expression
 }
-
+%token Comment1 Comment2
 %token <val> CST
 %token <str> IDF
 %token AND OR
@@ -29,7 +29,7 @@
 %token ADD SUB MUL DIV
 %token AFFECT PVG
 %token INF SUP INFEG SUPEG EGAL DIFF
-%token PO PF ACCO ACCF UNDERSCORE comment1 comment2
+%token PO PF ACCO ACCF UNDERSCORE
 
 %left OR
 %left AND
@@ -42,18 +42,41 @@
 %type <type> type
 %%
 
+
 programme
-    : MainPrgm IDF ';' declaration bloc ENDPG ';'
+    : MainPrgm IDF PVG declarations bloc ENDPG PVG
+    {
+        printf("Programme %s valide\n", $2);
+        free($2);
+    }
     ;
 
+declarations
+    : VAR declaration_list
+    | /* vide */
+    ;
+
+declaration_list
+    : declaration_list declaration
+    | declaration_list Comment1  
+    | declaration_list Comment2  
+    | declaration
+    | Comment1 
+    | Comment2  
+    | /* vide */
+    
 bloc
-    : BEGINPG commentaire instructions commentaire ENDPG
+    : BEGINPG ACCO instructions ACCF
     ;
-
 
 instructions
     : instructions instruction
+    | instructions Comment1
+    | instructions Comment2
     | instruction
+    | Comment1
+    | Comment2
+    | /* vide */
     ;
 
 instruction
@@ -76,16 +99,11 @@ declaration
         if (existe) {
             printf("Erreur sémantique: identifiant '%s' déjà déclaré\n", $2);
         } else {
-            inserer($2, "IDF", $4, "", cpt++, 1);  // Incrémente cpt et passe-le à inserer
+            inserer($2, "IDF", $4, "", 0, 0, cpt++, 1);  // Arguments corrigés
         }
     }
-    |VAR commentaire;
-;
-
-commentaire
-    : comment1
-    | comment2
     ;
+
 
 type
     : INT { $$ = strdup("INT"); }
@@ -167,13 +185,9 @@ expression
 ;
 
 boucle
-  : WHILE expression DO bloc {
-      if (strcmp($2, "BOOL") != 0) {
-          printf("Erreur sémantique ligne %d: condition doit être booléenne\n", @2.first_line);
-      }
-      free($2);
-    }
-  ;
+    : WHILE expression DO bloc
+    | FOR IDF FROM expression TO expression STEP expression DO bloc
+    ;
 
 condition
     : IF expression THEN bloc ELSE bloc
@@ -199,6 +213,4 @@ int main() {
     int result = yyparse();
     afficher();  // Déplacé avant le return
     return result;
-
-
 }

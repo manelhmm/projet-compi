@@ -26,20 +26,22 @@ void initialization()
 }
 
 /* 2- Fonction d'insertion des entités dans la table des symboles */
-void inserer(char entite[], char code[], char type[], char val[], int i, int y)
+void inserer(char entite[], char code[], char type[], char val[], int is_array, int array_size, int i, int y)
 {
-  switch (y)
-  { 
-   case 1: // Insertion dans la table des IDF et CONST
-     TS[i].state = 1;
-     strcpy(TS[i].name, entite);
-     strcpy(TS[i].code, code);
-     strcpy(TS[i].type, type);
-     strcpy(TS[i].val, val);
-     cpt++;
-     break;
+    switch(y)
+    { 
+     case 1: // Insertion dans la table des IDF et CONST
+       TS[i].state = 1;
+       strcpy(TS[i].name, entite);
+       strcpy(TS[i].code, code);
+       strcpy(TS[i].type, type);
+       strcpy(TS[i].val, val);
+       TS[i].is_array = is_array;
+       TS[i].array_size = array_size;
+       cpt++;
+       break;
 
-   case 2: // Insertion dans la table des mots clés
+    case 2: // Insertion dans la table des mots clés
      tabM[i].state = 1;
      strcpy(tabM[i].name, entite);
      strcpy(tabM[i].type, code);
@@ -57,34 +59,25 @@ void inserer(char entite[], char code[], char type[], char val[], int i, int y)
 
 /* Fonction Rechercher : Vérifie si l'entité existe déjà dans la table des symboles */
 void Rechercher(char entite[], char code[], char type[], char val[], int y) {
-  int i;
-  switch(y) {
-    case 1: // IDF / CONST
-      for (i = 0; i < 200; i++) {
-        if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
-          return; // Déjà présent
-      }
-      inserer(entite, code, type, val, cpt, 1);
-      break;
-
-    case 2: // Mots clés
-      for (i = 0; i < 50; i++) {
-        if (tabM[i].state == 1 && strcmp(entite, tabM[i].name) == 0)
-          return;
-      }
-      inserer(entite, code, type, val, cptm, 2);
-      break;
-
-    case 3: // Séparateurs
-      for (i = 0; i < 50; i++) {
-        if (tabS[i].state == 1 && strcmp(entite, tabS[i].name) == 0)
-          return;
-      }
-      inserer(entite, code, type, val, cpts, 3);
-      break;
-  }
+    int i;
+    switch(y) {
+        case 1: // IDF / CONST
+            for (i = 0; i < 200; i++) {
+                if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
+                    return;
+            }
+            inserer(entite, code, type, val, 0, 0, cpt, y);  // Corrigé
+            break;
+        case 2: // Mots clés
+            // ... (identique) ...
+            inserer(entite, code, type, val, 0, 0, cptm, y);  // Corrigé
+            break;
+        case 3: // Séparateurs
+            // ... (identique) ...
+            inserer(entite, code, type, val, 0, 0, cpts, y);  // Corrigé
+            break;
+    }
 }
-
 /* Fonction d'affichage de la table des symboles */
 void afficher()
 {
