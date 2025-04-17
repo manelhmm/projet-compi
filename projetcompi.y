@@ -44,11 +44,15 @@
 
 
 programme
+<<<<<<< HEAD
     : MainPrgm IDF PVG declarations bloc ENDPG PVG
     {
         printf("Programme %s valide\n", $2);
         free($2);
     }
+=======
+    : MainPrgm IDF ';' bloc ENDPG
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
     ;
 
 declarations
@@ -99,10 +103,17 @@ declaration
         if (existe) {
             printf("Erreur sémantique: identifiant '%s' déjà déclaré\n", $2);
         } else {
+<<<<<<< HEAD
             inserer($2, "IDF", $4, "", 0, 0, cpt++, 1);  // Arguments corrigés
         }
     }
     ;
+=======
+            inserer($2, "IDF", $4, "", cpt++, 1);  // Incrémente cpt et passe-le à inserer
+        }
+    }
+;
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
 
 
 type

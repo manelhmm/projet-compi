@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 MainPrgm L3_software ;
 Var
 <!- Partie déclaration - !>
+=======
+
+
+MainPrgm L3_software ;
+Var
+< !- Partie déclaration - !>
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
 BeginPg
 {
 {-- Partie Instruction --}

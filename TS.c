@@ -26,6 +26,7 @@ void initialization()
 }
 
 /* 2- Fonction d'insertion des entités dans la table des symboles */
+<<<<<<< HEAD
 void inserer(char entite[], char code[], char type[], char val[], int is_array, int array_size, int i, int y)
 {
     switch(y)
@@ -42,6 +43,22 @@ void inserer(char entite[], char code[], char type[], char val[], int is_array, 
        break;
 
     case 2: // Insertion dans la table des mots clés
+=======
+void inserer(char entite[], char code[], char type[], char val[], int i, int y)
+{
+  switch (y)
+  { 
+   case 1: // Insertion dans la table des IDF et CONST
+     TS[i].state = 1;
+     strcpy(TS[i].name, entite);
+     strcpy(TS[i].code, code);
+     strcpy(TS[i].type, type);
+     strcpy(TS[i].val, val);
+     cpt++;
+     break;
+
+   case 2: // Insertion dans la table des mots clés
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
      tabM[i].state = 1;
      strcpy(tabM[i].name, entite);
      strcpy(tabM[i].type, code);
@@ -59,6 +76,7 @@ void inserer(char entite[], char code[], char type[], char val[], int is_array, 
 
 /* Fonction Rechercher : Vérifie si l'entité existe déjà dans la table des symboles */
 void Rechercher(char entite[], char code[], char type[], char val[], int y) {
+<<<<<<< HEAD
     int i;
     switch(y) {
         case 1: // IDF / CONST
@@ -78,6 +96,36 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
             break;
     }
 }
+=======
+  int i;
+  switch(y) {
+    case 1: // IDF / CONST
+      for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
+          return; // Déjà présent
+      }
+      inserer(entite, code, type, val, cpt, 1);
+      break;
+
+    case 2: // Mots clés
+      for (i = 0; i < 50; i++) {
+        if (tabM[i].state == 1 && strcmp(entite, tabM[i].name) == 0)
+          return;
+      }
+      inserer(entite, code, type, val, cptm, 2);
+      break;
+
+    case 3: // Séparateurs
+      for (i = 0; i < 50; i++) {
+        if (tabS[i].state == 1 && strcmp(entite, tabS[i].name) == 0)
+          return;
+      }
+      inserer(entite, code, type, val, cpts, 3);
+      break;
+  }
+}
+
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
 /* Fonction d'affichage de la table des symboles */
 void afficher()
 {

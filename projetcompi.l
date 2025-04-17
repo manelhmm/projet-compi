@@ -6,7 +6,10 @@
     #include <string.h>
     #include "projetcompi.tab.h"
     #include "TS.h"
+<<<<<<< HEAD
     #define ERROR -1 
+=======
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
 
     void print_comment(const char* type, const char* text);
     int nb_ligne = 1;
@@ -23,6 +26,7 @@ Comment2   "{"[ ]*"--"([^-]|-[^-])*"--"[ ]*"}"
 
 %%
 
+<<<<<<< HEAD
 {Comment1} { 
     printf("[Commentaire ligne] %s\n", yytext); 
     col += strlen(yytext); 
@@ -36,6 +40,11 @@ Comment2   "{"[ ]*"--"([^-]|-[^-])*"--"[ ]*"}"
 }
 
 
+=======
+{Comment1}         { printf("[Commentaire] Ligne %d: %s\n", nb_ligne, yytext); col += strlen(yytext); }
+{Comment2}         { printf("[Commentaire multi-lignes] Ligne %d: %s\n", nb_ligne, yytext); col += strlen(yytext); }
+
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
 "MainPrgm"         { printf("[Mot-cle] MainPrgm\n"); Rechercher("MainPrgm", "MainPrgm", "", "", 2); return MainPrgm; }  
 "BeginPg"          { printf("[Mot-cle] BeginPg\n"); Rechercher("BeginPg", "BEGINPG", "", "", 2); return BEGINPG; }
 "AND"              { printf("[Mot-cle] AND\n"); Rechercher("AND", "AND", "", "", 2); col += 3; return AND; }
@@ -71,9 +80,17 @@ Comment2   "{"[ ]*"--"([^-]|-[^-])*"--"[ ]*"}"
 {IDF} {
     /* Vérification de la longueur maximale */
     if (strlen(yytext) > 14) {
+<<<<<<< HEAD
         printf("Erreur ligne %d: Identifiant '%s' dépasse 14 caractères\n", nb_ligne, yytext);
         col += strlen(yytext);
         return ERROR;
+=======
+        printf("[Erreur] Ligne %d: Identifiant trop long '%s'\n", nb_ligne, yytext);
+    }
+    else {
+        printf("[IDF] %s\n", yytext);  // Affichage de l'identifiant
+        Rechercher(yytext, "IDF", "", "", 1);
+>>>>>>> a9aea29cc2f697500da2c4f1a641b0a38ae3e4ec
     }
     
     /* Vérification des tirets bas */
