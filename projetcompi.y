@@ -29,7 +29,7 @@
 %token ADD SUB MUL DIV
 %token AFFECT PVG
 %token INF SUP INFEG SUPEG EGAL DIFF
-%token PO PF ACCO ACCF UNDERSCORE
+%token PO PF ACCO ACCF UNDERSCORE comment1 comment2
 
 %left OR
 %left AND
@@ -43,12 +43,13 @@
 %%
 
 programme
-    : MainPrgm IDF ';' bloc ENDPG
+    : MainPrgm IDF ';' declaration bloc ENDPG ';'
     ;
 
 bloc
-    : BEGINPG instructions ENDPG
+    : BEGINPG commentaire instructions commentaire ENDPG
     ;
+
 
 instructions
     : instructions instruction
@@ -78,7 +79,13 @@ declaration
             inserer($2, "IDF", $4, "", cpt++, 1);  // Incrémente cpt et passe-le à inserer
         }
     }
+    |VAR commentaire;
 ;
+
+commentaire
+    : comment1
+    | comment2
+    ;
 
 type
     : INT { $$ = strdup("INT"); }
@@ -160,9 +167,13 @@ expression
 ;
 
 boucle
-    : WHILE expression DO bloc
-    | FOR IDF FROM expression TO expression STEP expression DO bloc
-    ;
+  : WHILE expression DO bloc {
+      if (strcmp($2, "BOOL") != 0) {
+          printf("Erreur sémantique ligne %d: condition doit être booléenne\n", @2.first_line);
+      }
+      free($2);
+    }
+  ;
 
 condition
     : IF expression THEN bloc ELSE bloc
@@ -188,4 +199,6 @@ int main() {
     int result = yyparse();
     afficher();  // Déplacé avant le return
     return result;
+
+
 }

@@ -13,7 +13,7 @@
 
 lettre     [a-zA-Z]
 chiffre    [0-9]
-IDF        {lettre}({lettre}|{chiffre})*
+IDF        {lettre}({lettre}|{chiffre}|[_])* 
 cst        {chiffre}+
 Comment1   "<!-"([^-]|-[^!]|--[^>])*"-!>"
 Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
@@ -94,3 +94,4 @@ Comment2   "\\{--"([^-]|-[^-]|[\r\n])*"--\\}"
 %%
 
 int yywrap(void) { return 1; }
+
